@@ -89,6 +89,13 @@ public class MasterProjekatMain {
 		LOG.info("For a single example that is labeled " + expectedResult + " the model predicted " + modelPrediction);
 
 		UIServerMonitor.getInstance().stop();
+		LOG.info("UI server stopped!");
+		
+		if (AppConfig.saveModel) {
+			net.saveModel();
+			LOG.info("Model saved!");
+		}
+		
 		long totalTime = TimeUnit.NANOSECONDS.toMinutes(System.nanoTime() - startTime);
 		LOG.info("MasterProjekatMain example finished!!! totalTime: " + totalTime + " minutes");
 	}

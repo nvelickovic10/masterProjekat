@@ -16,7 +16,7 @@ public class AppConfig {
 
 	// Net config
 	public static final int batchSize = 20;
-	public static final int epochs = 1;
+	public static final int epochs = 100;
 	public static final long seed = 42;
 
 	// Data config
@@ -30,7 +30,8 @@ public class AppConfig {
 
 	// App config
 	public static final Level logLevel = Level.DEBUG;
-	public static boolean startUIServer = true;
+	public static final boolean saveModel = true;
+	public static final boolean startUIServer = true;
 	public static final boolean trainWithTransforms = false;
 	public static final Random rnd = new Random(seed);
 }
