@@ -23,24 +23,24 @@ public class LeNetCustom extends Net {
 
 	@Override
 	public void build() {
-		MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder().seed(AppConfig.seed).l2(0.005)
-				.activation(Activation.RELU).weightInit(WeightInit.XAVIER).updater(new Nesterovs(0.001, 0.9)).list()
+		MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder().seed(AppConfig.seed).l2(0.001)
+				.activation(Activation.RELU).weightInit(WeightInit.XAVIER_UNIFORM).updater(new Nesterovs(0.0002, 0.8)).list()
 				.layer(0,
-						LayerFactory.convolutionalLayer("cnn1", AppConfig.channels, 20, new int[] { 3, 3 },
+						LayerFactory.convolutionalLayer("cnn1", AppConfig.channels, 30, new int[] { 3, 3 },
 								new int[] { 1, 1 }, new int[] { 1, 1 }, 0))
 				.layer(1,
-						LayerFactory.convolutionalLayer("cnn2", 0, 20, new int[] { 3, 3 },
+						LayerFactory.convolutionalLayer("cnn2", 0, 60, new int[] { 3, 3 },
 								new int[] { 1, 1 }, new int[] { 0, 0 }, 0))
 				.layer(2, LayerFactory.maxPoolLayer("maxpool1", new int[] { 2, 2 }, new int[] { 1, 1 }))
 				.layer(3,
-						LayerFactory.convolutionalLayer("cnn3", 0, 20, new int[] { 3, 3 },
+						LayerFactory.convolutionalLayer("cnn3", 0, 100, new int[] { 3, 3 },
 								new int[] { 1, 1 }, new int[] { 0, 0 }, 0))
 				.layer(4,
-						LayerFactory.convolutionalLayer("cnn4", 0, 20, new int[] { 3, 3 },
+						LayerFactory.convolutionalLayer("cnn4", 0, 100, new int[] { 3, 3 },
 								new int[] { 1, 1 }, new int[] { 0, 0 }, 0))
 				.layer(5, LayerFactory.maxPoolLayer("maxpool1", new int[] { 2, 2 }, new int[] { 2, 2 }))
 				.layer(6,
-						LayerFactory.convolutionalLayer("cnn5", 0, 20, new int[] { 3, 3 },
+						LayerFactory.convolutionalLayer("cnn5", 0, 40, new int[] { 3, 3 },
 								new int[] { 1, 1 }, new int[] { 0, 0 }, 0))
 				.layer(7, LayerFactory.maxPoolLayer("maxpool2", new int[] { 2, 2 }, new int[] { 1, 1 }))
 				
