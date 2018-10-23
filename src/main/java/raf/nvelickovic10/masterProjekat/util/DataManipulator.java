@@ -20,6 +20,9 @@ import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 
 import raf.nvelickovic10.masterProjekat.util.logger.Logger;
 
+/**
+ * Data manipulation class
+ */
 public class DataManipulator {
 
 	private static final Logger LOG = new Logger(DataManipulator.class.getSimpleName());
@@ -38,7 +41,7 @@ public class DataManipulator {
 		LOG.debug("Reading data...");
 
 		// Load images folder
-		File mainPath = new File(AppConfig.imagesBasePath);
+		File mainPath = new File(AppConfig.imagesConcretePath);
 		FileSplit fileSplit = new FileSplit(mainPath, NativeImageLoader.ALLOWED_FORMATS, AppConfig.rnd);
 
 		numberOfImages = toIntExact(fileSplit.length());
