@@ -17,7 +17,7 @@ public class ImageToClassPreprocessor {
 
 	private final Logger LOG = new Logger(ImageToClassPreprocessor.class.getSimpleName());
 
-	private final String csvFile = AppConfig.imagesConcretePath + "/kategorizacija.csv";
+	private final String csvFile = AppConfig.imagesBasePath + "/kategorizacija.csv";
 	private final String SEPARATOR = ",";
 
 	private final int SNIMAK = 0, TKIVO = 1, ANOMALIJA = 2, KLASIFIKACIJA = 3, X = 4, Y = 5, R = 6;
