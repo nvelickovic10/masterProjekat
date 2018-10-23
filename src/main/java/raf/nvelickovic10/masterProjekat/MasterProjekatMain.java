@@ -12,10 +12,10 @@ import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 
 import raf.nvelickovic10.masterProjekat.factory.TransformFactory;
 import raf.nvelickovic10.masterProjekat.net.Net;
-import raf.nvelickovic10.masterProjekat.net.models.LeNetCustom;
+import raf.nvelickovic10.masterProjekat.net.models.LeNetCustom1;
 import raf.nvelickovic10.masterProjekat.util.AppConfig;
 import raf.nvelickovic10.masterProjekat.util.DataManipulator;
-import raf.nvelickovic10.masterProjekat.util.UIServerMonitor;
+import raf.nvelickovic10.masterProjekat.util.NetMonitor;
 import raf.nvelickovic10.masterProjekat.util.logger.Logger;
 
 public class MasterProjekatMain {
@@ -31,7 +31,7 @@ public class MasterProjekatMain {
 		DataManipulator dataManipulator = new DataManipulator();
 		InputSplit[] data = dataManipulator.readData();
 		InputSplit trainData = data[0];
-		InputSplit testData = data[1];
+		InputSplit testData = data.length == 2 ? data[1] : data[0];
 		int numberOfLabels = dataManipulator.getNumberOfLabels();
 		LOG.info("Data loaded! numberOfImages: " + dataManipulator.getNumberOfImages() + ", numberOfLabels: "
 				+ numberOfLabels);
@@ -44,15 +44,13 @@ public class MasterProjekatMain {
 
 		// Build net
 //		Net net = new LeNet(numberOfLabels);
-		Net net = new LeNetCustom(numberOfLabels);
+		Net net = new LeNetCustom1(numberOfLabels);
 		net.build();
 		LOG.info("Net built!");
 		net.init();
 		LOG.info("Net initialized!");
-		if (AppConfig.startUIServer) {
-			UIServerMonitor.getInstance().attach(net.getModel());
-			LOG.info("UI server monitor attached to net!");
-		}
+		NetMonitor.getInstance().attach(net.getModel());
+		LOG.info("Net monitor attached to net!");
 
 		LOG.info("Train model without transformations...");
 
@@ -88,14 +86,14 @@ public class MasterProjekatMain {
 		String modelPrediction = allClassLabels.get(prediction[0]);
 		LOG.info("For a single example that is labeled " + expectedResult + " the model predicted " + modelPrediction);
 
-		UIServerMonitor.getInstance().stop();
+		NetMonitor.getInstance().stop();
 		LOG.info("UI server stopped!");
-		
+
 		if (AppConfig.saveModel) {
-			net.saveModel();
-			LOG.info("Model saved!");
+			String name = net.saveModel();
+			LOG.info("Model saved! " + name);
 		}
-		
+
 		long totalTime = TimeUnit.NANOSECONDS.toMinutes(System.nanoTime() - startTime);
 		LOG.info("MasterProjekatMain example finished!!! totalTime: " + totalTime + " minutes");
 	}

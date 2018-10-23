@@ -10,7 +10,7 @@
 	<packaging>jar</packaging>
 
 	<name>masterProjekat</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Nemanja Velickovic master projekat</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

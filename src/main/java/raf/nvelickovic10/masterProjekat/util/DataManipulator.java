@@ -51,9 +51,13 @@ public class DataManipulator {
 				numberOfInputDataLabels, AppConfig.batchSize);
 
 		// Split data into train and test set
-		InputSplit[] returnData = fileSplit.sample(pathFilter, AppConfig.splitTrainTest, 1 - AppConfig.splitTrainTest);
+		InputSplit[] returnData = fileSplit.sample(pathFilter, AppConfig.splitTrain, 1 - AppConfig.splitTrain);
+		returnData[0] = fileSplit.sample(pathFilter, 1, 0)[0];
 
-		LOG.debug("Finished reading data! trainData: " + returnData[0] + ", testData: " + returnData[1]);
+		LOG.debug("Finished reading data[" + returnData.length + "]! trainData: " + returnData[0]);
+		if (returnData.length == 2) {
+			LOG.debug("evaluationData: " + returnData[1]);
+		}
 		return returnData;
 	}
 

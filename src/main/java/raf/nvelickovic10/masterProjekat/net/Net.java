@@ -13,7 +13,7 @@ import raf.nvelickovic10.masterProjekat.util.DataManipulator;
 import raf.nvelickovic10.masterProjekat.util.logger.Logger;
 
 public abstract class Net {
-	protected static Logger LOG;
+	public static Logger LOG;
 	protected MultiLayerNetwork model;
 	protected final int numberOfLabels;
 
@@ -57,10 +57,11 @@ public abstract class Net {
 		return predictedClasses;
 	}
 
-	public final void saveModel() {
+	public final String saveModel() {
 		LOG.debug("Saving model...");
-		String name = dataManipulator.saveModel(this.model, LeNet.class.getSimpleName());
-		LOG.info("Model saved: " + name);
+		String name = dataManipulator.saveModel(this.model, Net.LOG.getClassName());
+		LOG.debug("Model saved: " + name);
+		return name;
 	}
 	
 	public final Model getModel() {

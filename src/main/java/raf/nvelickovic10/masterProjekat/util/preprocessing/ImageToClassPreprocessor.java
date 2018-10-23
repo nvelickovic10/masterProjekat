@@ -20,6 +20,7 @@ public class ImageToClassPreprocessor {
 	private final String csvFile = AppConfig.imagesBasePath + "/kategorizacija.csv";
 	private final String SEPARATOR = ",";
 
+	@SuppressWarnings("unused")
 	private final int SNIMAK = 0, TKIVO = 1, ANOMALIJA = 2, KLASIFIKACIJA = 3, X = 4, Y = 5, R = 6;
 
 	private final void preprocess() {
@@ -38,13 +39,13 @@ public class ImageToClassPreprocessor {
 				FileUtils.copyFile(file, new File(AppConfig.imagesBasePath + "mias1/" + imageData[ANOMALIJA] + "/"
 						+ imageData[SNIMAK] + AppConfig.imagesExtension));
 
-				if (imageData[KLASIFIKACIJA].equals("N")) {
-					FileUtils.copyFile(file, new File(
-							AppConfig.imagesBasePath + "mias2/N/" + imageData[SNIMAK] + AppConfig.imagesExtension));
-				} else {
-					FileUtils.copyFile(file, new File(
-							AppConfig.imagesBasePath + "mias2/A/" + imageData[SNIMAK] + AppConfig.imagesExtension));
-				}
+//				if (imageData[KLASIFIKACIJA].equals("N")) {
+//					FileUtils.copyFile(file, new File(
+//							AppConfig.imagesBasePath + "mias2/N/" + imageData[SNIMAK] + AppConfig.imagesExtension));
+//				} else {
+//					FileUtils.copyFile(file, new File(
+//							AppConfig.imagesBasePath + "mias2/A/" + imageData[SNIMAK] + AppConfig.imagesExtension));
+//				}
 
 			}
 
