@@ -90,7 +90,9 @@ public class DataManipulator {
 		DataSetIterator dataSetIterator = new RecordReaderDataSetIterator(recordReader, AppConfig.batchSize, 1,
 				numberOfInputDataLabels);
 		AppConfig.scaler.fit(dataSetIterator);
-		//dataSetIterator.setPreProcessor(AppConfig.scaler);
+		if (AppConfig.useNormalize) {
+			dataSetIterator.setPreProcessor(AppConfig.scaler);
+		}
 		LOG.debug("dataSetIterator created!");
 		return dataSetIterator;
 	}

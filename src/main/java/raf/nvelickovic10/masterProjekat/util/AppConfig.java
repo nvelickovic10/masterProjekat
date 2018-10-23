@@ -15,15 +15,15 @@ public class AppConfig {
 	// Image config
 	public static final int height = 100;
 	public static final int width = 100;
-	public static final int channels = 3;
+	public static final int channels = 1;
 
 	// Net config
 	public static final int batchSize = 20;
-	public static final int epochs = 100;
+	public static final int epochs = 50;
 	public static final long seed = 42;
 
 	// Data config
-	public static final String imagesConcreteDirectory = "mias";
+	public static final String imagesConcreteDirectory = "mias1";
 	public static final String imagesExtension = ".pgm";
 	public static final double splitTrainTest = 0.8;
 	public static final String imagesBasePath = FilenameUtils.concat(System.getProperty("user.dir"),
@@ -35,8 +35,9 @@ public class AppConfig {
 
 	// App config
 	public static final Level logLevel = Level.DEBUG;
+	public static final boolean useNormalize = false;
 	public static final boolean saveModel = true;
-	public static final boolean startUIServer = true;
+	public static final boolean startUIServer = false;
 	public static final boolean trainWithTransforms = false;
 	public static final Random rnd = new Random(seed);
 }

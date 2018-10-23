@@ -54,13 +54,9 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-native-platform -->
-		<!-- <dependency> <groupId>org.nd4j</groupId> <artifactId>nd4j-native-platform</artifactId> 
-			<version>${dl4j.version}</version> </dependency> -->
-
-		<!-- https://mvnrepository.com/artifact/org.nd4j/nd4j-cuda-9.1-platform -->
 		<dependency>
 			<groupId>org.nd4j</groupId>
-			<artifactId>nd4j-cuda-9.1-platform</artifactId>
+			<artifactId>nd4j-native-platform</artifactId>
 			<version>${dl4j.version}</version>
 		</dependency>
 
