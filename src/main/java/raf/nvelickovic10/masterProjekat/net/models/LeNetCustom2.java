@@ -20,6 +20,10 @@ public class LeNetCustom2 extends Net {
 	public LeNetCustom2(int numberOfLabels) {
 		super(LeNetCustom2.class.getSimpleName(), numberOfLabels);
 	}
+	
+	public LeNetCustom2(MultiLayerNetwork model) {
+		super(LeNetCustom2.class.getSimpleName(), model, 0);
+	}
 
 	@Override
 	public void build() {

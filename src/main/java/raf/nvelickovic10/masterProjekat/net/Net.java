@@ -25,6 +25,12 @@ public abstract class Net {
 		this.numberOfLabels = numberOfLabels;
 	}
 
+	protected Net(String className, MultiLayerNetwork model, int numberOfLabels) {
+		LOG = new Logger(className);
+		this.model = model;
+		this.numberOfLabels = numberOfLabels;
+	}
+
 	public abstract void build();
 
 	public final void init() {

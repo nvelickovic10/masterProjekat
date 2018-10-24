@@ -17,6 +17,7 @@ import org.datavec.image.recordreader.ImageRecordReader;
 import org.datavec.image.transform.ImageTransform;
 import org.deeplearning4j.datasets.datavec.RecordReaderDataSetIterator;
 import org.deeplearning4j.nn.api.Model;
+import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.optimize.listeners.CollectScoresIterationListener;
 import org.deeplearning4j.util.ModelSerializer;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
@@ -87,6 +88,28 @@ public class DataManipulator {
 		}
 		LOG.debug("Finished saving model! modelName: " + modelName);
 		return modelName;
+	}
+
+	/**
+	 * Read model from the src/main/resources/models/{name}<br />
+	 * 
+	 * @param network - The network model
+	 * @param prefix
+	 * @return String modelName, the path to the save file
+	 */
+	public MultiLayerNetwork readModel(String prefix) {
+		LOG.debug("Loading model...");
+		String modelName = AppConfig.modelsBasePath + prefix + "-model.bin";
+		try {
+			MultiLayerNetwork model = ModelSerializer.restoreMultiLayerNetwork(new File(modelName));
+			LOG.debug("Finished loading model! modelName: " + modelName);
+			LOG.debug("model: " + model);
+			return model;
+		} catch (IOException e) {
+			LOG.error("Model save failed!!!");
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	/**

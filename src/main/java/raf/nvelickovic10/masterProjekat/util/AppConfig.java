@@ -37,8 +37,7 @@ public class AppConfig {
 	public static final DataNormalization scaler = new ImagePreProcessingScaler(0, 1);
 
 	// App config
-	public static final boolean loadModel = false; // TODO
-	public static final Level logLevel = Level.DEBUG;
+	public static final Level logLevel = Level.INFO;
 	public static final boolean useNormalize = false;
 	public static final boolean saveModel = true;
 	public static final Random rnd = new Random(seed);

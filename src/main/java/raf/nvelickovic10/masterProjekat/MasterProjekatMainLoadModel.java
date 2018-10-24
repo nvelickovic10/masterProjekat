@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import org.datavec.api.split.InputSplit;
 import org.datavec.image.transform.ImageTransform;
 import org.deeplearning4j.eval.Evaluation;
+import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 
@@ -18,9 +19,9 @@ import raf.nvelickovic10.masterProjekat.util.DataManipulator;
 import raf.nvelickovic10.masterProjekat.util.NetMonitor;
 import raf.nvelickovic10.masterProjekat.util.logger.Logger;
 
-public class MasterProjekatMain {
+public class MasterProjekatMainLoadModel {
 
-	private static Logger LOG = new Logger(MasterProjekatMain.class.getSimpleName());
+	private static Logger LOG = new Logger(MasterProjekatMainLoadModel.class.getSimpleName());
 
 	public void run() throws IOException {
 		long startTime = System.nanoTime();
@@ -37,34 +38,10 @@ public class MasterProjekatMain {
 				+ numberOfLabels);
 		LOG.debug("trainData: " + trainData.length() + ", evaluationData: " + evaluationData.length());
 
-		// Get image transformations
-		// Image transformations can be used to further expand the test data with
-		// slightly modified images
-		List<ImageTransform> transforms = TransformFactory.getTransforms();
-		LOG.info("Transforms loaded!");
-
-		// Build net
-		Net net = new LeNetCustom2(numberOfLabels);
-		net.build();
-		LOG.info("Net built!");
-		net.init();
-		LOG.info("Net initialized!");
-		NetMonitor.getInstance().attach(net.getModel());
-		LOG.info("Net monitor attached to net!");
-
-		LOG.info("Train model without transformations...");
-
-		DataSetIterator dataSetIterator = dataManipulator.getDataSetIterator(trainData, null);
-		net.train(dataSetIterator);
-
-		if (AppConfig.trainWithTransforms) {
-			// Train with transformations
-			for (ImageTransform transform : transforms) {
-				LOG.info("Train model with transformation: " + transform.getClass().toString());
-				dataSetIterator = dataManipulator.getDataSetIterator(trainData, transform);
-				net.train(dataSetIterator);
-			}
-		}
+		// Load net
+		MultiLayerNetwork model = dataManipulator.readModel(LeNetCustom2.class.getSimpleName());
+		Net net = new LeNetCustom2(model);
+		LOG.info("Net loaded!");
 
 		// Evaluate model with test data
 		DataSetIterator testDataSetIterator = dataManipulator.getDataSetIterator(evaluationData, null);
@@ -85,21 +62,13 @@ public class MasterProjekatMain {
 		String modelPrediction = allClassLabels.get(prediction[0]);
 		LOG.info("For a single example that is labeled " + expectedResult + " the model predicted " + modelPrediction);
 
-		NetMonitor.getInstance().stop();
-		LOG.info("UI server stopped!");
-
-		if (AppConfig.saveModel) {
-			String name = net.saveModel();
-			LOG.info("Model saved! " + name);
-		}
-
 		long totalTime = TimeUnit.NANOSECONDS.toMinutes(System.nanoTime() - startTime);
 		LOG.info("Example finished!!! totalTime: " + totalTime + " minutes");
 	}
 
 	public static void main(String[] args) {
 		try {
-			new MasterProjekatMain().run();
+			new MasterProjekatMainLoadModel().run();
 		} catch (IOException e) {
 			// catch recordReader.initialize()
 			LOG.error("Application error!!!");
