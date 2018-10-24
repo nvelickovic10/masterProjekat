@@ -7,7 +7,6 @@ import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 
-import raf.nvelickovic10.masterProjekat.net.models.LeNet;
 import raf.nvelickovic10.masterProjekat.util.AppConfig;
 import raf.nvelickovic10.masterProjekat.util.DataManipulator;
 import raf.nvelickovic10.masterProjekat.util.logger.Logger;
@@ -63,7 +62,7 @@ public abstract class Net {
 		LOG.debug("Model saved: " + name);
 		return name;
 	}
-	
+
 	public final Model getModel() {
 		return this.model;
 	}

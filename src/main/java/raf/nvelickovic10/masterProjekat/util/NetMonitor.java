@@ -1,8 +1,5 @@
 package raf.nvelickovic10.masterProjekat.util;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.deeplearning4j.api.storage.StatsStorage;
 import org.deeplearning4j.nn.api.Model;
 import org.deeplearning4j.optimize.listeners.CollectScoresIterationListener;
@@ -11,7 +8,6 @@ import org.deeplearning4j.ui.api.UIServer;
 import org.deeplearning4j.ui.stats.StatsListener;
 import org.deeplearning4j.ui.storage.InMemoryStatsStorage;
 
-import raf.nvelickovic10.masterProjekat.net.Net;
 import raf.nvelickovic10.masterProjekat.util.logger.Logger;
 
 public class NetMonitor {
@@ -19,9 +15,10 @@ public class NetMonitor {
 	private static final Logger LOG = new Logger(NetMonitor.class.getSimpleName());
 
 	private static NetMonitor instance = null;
-	private final CollectScoresIterationListener collectScoresIterationListener = new CollectScoresIterationListener();
+	private final CollectScoresIterationListener collectScoresIterationListener = new CollectScoresIterationListener(1);
 	private final ScoreIterationListener scoreIterationListener = new ScoreIterationListener(1);
-	
+	private final DataManipulator dataManipulator = new DataManipulator();
+
 	public final void attach(Model model) {
 		if (AppConfig.startUIServer) {
 			StatsStorage statsStorage = new InMemoryStatsStorage();
@@ -34,11 +31,7 @@ public class NetMonitor {
 	}
 
 	private final void saveScore() {
-		try {
-			collectScoresIterationListener.exportScores(new File(AppConfig.modelsBasePath + Net.LOG.getClassName() + "-scores.csv"), ",");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		dataManipulator.saveScores(collectScoresIterationListener);
 	}
 
 	public final void stop() {

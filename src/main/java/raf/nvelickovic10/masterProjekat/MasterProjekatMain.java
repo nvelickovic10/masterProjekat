@@ -12,7 +12,7 @@ import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 
 import raf.nvelickovic10.masterProjekat.factory.TransformFactory;
 import raf.nvelickovic10.masterProjekat.net.Net;
-import raf.nvelickovic10.masterProjekat.net.models.LeNetCustom1;
+import raf.nvelickovic10.masterProjekat.net.models.LeNetCustom2;
 import raf.nvelickovic10.masterProjekat.util.AppConfig;
 import raf.nvelickovic10.masterProjekat.util.DataManipulator;
 import raf.nvelickovic10.masterProjekat.util.NetMonitor;
@@ -31,10 +31,11 @@ public class MasterProjekatMain {
 		DataManipulator dataManipulator = new DataManipulator();
 		InputSplit[] data = dataManipulator.readData();
 		InputSplit trainData = data[0];
-		InputSplit testData = data.length == 2 ? data[1] : data[0];
+		InputSplit evaluationData = data[1];
 		int numberOfLabels = dataManipulator.getNumberOfLabels();
 		LOG.info("Data loaded! numberOfImages: " + dataManipulator.getNumberOfImages() + ", numberOfLabels: "
 				+ numberOfLabels);
+		LOG.debug("trainData: " + trainData.length() + ", evaluationData: " + evaluationData.length());
 
 		// Get image transformations
 		// Image transformations can be used to further expand the test data with
@@ -43,8 +44,7 @@ public class MasterProjekatMain {
 		LOG.info("Transforms loaded!");
 
 		// Build net
-//		Net net = new LeNet(numberOfLabels);
-		Net net = new LeNetCustom1(numberOfLabels);
+		Net net = new LeNetCustom2(numberOfLabels);
 		net.build();
 		LOG.info("Net built!");
 		net.init();
@@ -67,14 +67,13 @@ public class MasterProjekatMain {
 		}
 
 		// Evaluate model with test data
-		DataSetIterator testDataSetIterator = dataManipulator.getDataSetIterator(testData, null);
+		DataSetIterator testDataSetIterator = dataManipulator.getDataSetIterator(evaluationData, null);
 		Evaluation evaluation = net.evaluate(testDataSetIterator);
 		LOG.info("Model evaluated!");
 		LOG.info(evaluation.stats(true));
-		LOG.debug(evaluation.toString());
 
 		// Make a single prediction
-		testDataSetIterator = dataManipulator.getDataSetIterator(testData, null);
+		testDataSetIterator = dataManipulator.getDataSetIterator(evaluationData, null);
 		DataSet singlePredictionDataSet = testDataSetIterator.next();
 
 		LOG.info("Make a single prediction");

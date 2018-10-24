@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.List;
 
 import org.datavec.api.io.filters.BalancedPathFilter;
+import org.datavec.api.io.filters.PathFilter;
+import org.datavec.api.io.filters.RandomPathFilter;
 import org.datavec.api.io.labels.ParentPathLabelGenerator;
 import org.datavec.api.split.FileSplit;
 import org.datavec.api.split.InputSplit;
@@ -15,9 +17,11 @@ import org.datavec.image.recordreader.ImageRecordReader;
 import org.datavec.image.transform.ImageTransform;
 import org.deeplearning4j.datasets.datavec.RecordReaderDataSetIterator;
 import org.deeplearning4j.nn.api.Model;
+import org.deeplearning4j.optimize.listeners.CollectScoresIterationListener;
 import org.deeplearning4j.util.ModelSerializer;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 
+import raf.nvelickovic10.masterProjekat.net.Net;
 import raf.nvelickovic10.masterProjekat.util.logger.Logger;
 
 /**
@@ -47,8 +51,12 @@ public class DataManipulator {
 		numberOfImages = toIntExact(fileSplit.length());
 		numberOfInputDataLabels = fileSplit.getRootDir().listFiles(File::isDirectory).length;
 
-		BalancedPathFilter pathFilter = new BalancedPathFilter(AppConfig.rnd, this.labelMaker, numberOfImages,
-				numberOfInputDataLabels, AppConfig.batchSize);
+		PathFilter pathFilter = new RandomPathFilter(AppConfig.rnd, NativeImageLoader.ALLOWED_FORMATS);
+
+		if (AppConfig.useBalancedData) {
+			pathFilter = new BalancedPathFilter(AppConfig.rnd, this.labelMaker, numberOfImages, numberOfInputDataLabels,
+					AppConfig.batchSize);
+		}
 
 		// Split data into train and test set
 		InputSplit[] returnData = fileSplit.sample(pathFilter, AppConfig.splitTrain, 1 - AppConfig.splitTrain);
@@ -79,6 +87,22 @@ public class DataManipulator {
 		}
 		LOG.debug("Finished saving model! modelName: " + modelName);
 		return modelName;
+	}
+
+	/**
+	 * Save scores in the src/main/resources/models/{name}<br />
+	 * 
+	 * @param collectScoresIterationListener - The scores iteration listener
+	 */
+	public void saveScores(CollectScoresIterationListener collectScoresIterationListener) {
+		LOG.debug("Saving scores...");
+		File file = new File(AppConfig.modelsBasePath + Net.LOG.getClassName() + "-scores.csv");
+		try {
+			collectScoresIterationListener.exportScores(file, ",");
+			LOG.debug("Scores saved!");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
