@@ -5,18 +5,14 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.datavec.api.split.InputSplit;
-import org.datavec.image.transform.ImageTransform;
 import org.deeplearning4j.eval.Evaluation;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 
-import raf.nvelickovic10.masterProjekat.factory.TransformFactory;
 import raf.nvelickovic10.masterProjekat.net.Net;
 import raf.nvelickovic10.masterProjekat.net.models.LeNetCustom2;
-import raf.nvelickovic10.masterProjekat.util.AppConfig;
 import raf.nvelickovic10.masterProjekat.util.DataManipulator;
-import raf.nvelickovic10.masterProjekat.util.NetMonitor;
 import raf.nvelickovic10.masterProjekat.util.logger.Logger;
 
 public class MasterProjekatMainLoadModel {
