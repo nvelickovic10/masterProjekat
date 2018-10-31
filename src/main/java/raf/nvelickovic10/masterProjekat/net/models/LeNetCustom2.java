@@ -42,13 +42,13 @@ public class LeNetCustom2 extends Net {
 				.layer(4,
 						LayerFactory.convolutionalLayer("cnn4", 0, 100, new int[] { 3, 3 },
 								new int[] { 1, 1 }, new int[] { 0, 0 }, 0))
-				.layer(5, LayerFactory.maxPoolLayer("maxpool1", new int[] { 2, 2 }, new int[] { 2, 2 }))
+				.layer(5, LayerFactory.maxPoolLayer("maxpool2", new int[] { 2, 2 }, new int[] { 2, 2 }))
 				.layer(6,
 						LayerFactory.convolutionalLayer("cnn5", 0, 40, new int[] { 3, 3 },
 								new int[] { 1, 1 }, new int[] { 0, 0 }, 0))
-				.layer(7, LayerFactory.maxPoolLayer("maxpool2", new int[] { 2, 2 }, new int[] { 1, 1 }))
+				.layer(7, LayerFactory.maxPoolLayer("maxpool3", new int[] { 2, 2 }, new int[] { 1, 1 }))
 				
-				.layer(8, new DenseLayer.Builder().nOut(400).build())
+				.layer(8, new DenseLayer.Builder().nOut(800).build())
 				.layer(9, new DenseLayer.Builder().nOut(400).build())
 				.layer(10, new DenseLayer.Builder().nOut(200).build())
 				.layer(11,

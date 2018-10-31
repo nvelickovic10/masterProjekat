@@ -40,5 +40,5 @@ public class AppConfig {
 	public static final Level logLevel = Level.INFO;
 	public static final boolean useNormalize = false;
 	public static final boolean saveModel = true;
-	public static final Random rnd = new Random(seed);
+	public static final Random rnd = new Random();
 }

@@ -27,12 +27,11 @@ public class MasterProjekatMainLoadModel {
 		// Data will be split in trainData = data[0] and testData = data[1]
 		DataManipulator dataManipulator = new DataManipulator();
 		InputSplit[] data = dataManipulator.readData();
-		InputSplit trainData = data[0];
-		InputSplit evaluationData = data[1];
+		InputSplit evaluationData = data[0];
 		int numberOfLabels = dataManipulator.getNumberOfLabels();
 		LOG.info("Data loaded! numberOfImages: " + dataManipulator.getNumberOfImages() + ", numberOfLabels: "
 				+ numberOfLabels);
-		LOG.debug("trainData: " + trainData.length() + ", evaluationData: " + evaluationData.length());
+		LOG.debug("evaluationData: " + evaluationData.length());
 
 		// Load net
 		MultiLayerNetwork model = dataManipulator.readModel(LeNetCustom2.class.getSimpleName());
